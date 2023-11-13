@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="styles.css" />
+    <meta charset="utf-8" />
+    <title>DBP</title>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        document.querySelector("#new-task").onsubmit = (event) => {
+          event.preventDefault();
+          //Creacion de un checkbox
+          const cb = document.createElement("input");
+          cb.setAttribute("type", "checkbox");
+          //Creacion de un elemento en la lista
+          const li = document.createElement("li");
+          li.append(cb);
+          //Creacion de un elemento de texto para modificar
+          const taskText = document.createElement("span");
+          taskText.textContent = document.querySelector("#task").value;
+          li.append(taskText);
+          //Creacion de un boton extra para eliminar de la lista
+          const RB = document.createElement("button");
+          RB.textContent = "X";
+          RB.addEventListener("click", () => {
+            li.remove();
+          });
+          li.append(RB);
+          //Agrega el elemento de lista a la lista ordenada
+          document.querySelector("#tasks").append(li);
+          //Establece el valor del elemento con una cadena vacia
+          document.querySelector("#task").value = "";
+
+          // Agregar un evento para tachar el texto
+          cb.addEventListener("change", function () {
+            if (this.checked) {
+              li.classList.add("completed");
+            } else {
+              li.classList.remove("completed");
+            }
+          });
+          return false;
+        };
+        //Agrega un evento para marcar todos lo elementos como completadas
+        document.querySelector("#complete-all").onclick = () => {
+          const compall = document.querySelectorAll("#tasks li");
+          compall.forEach((task) => {
+            const checkbox = task.querySelector("input[type='checkbox']");
+            checkbox.checked = true;
+            task.classList.add("completed");
+          });
+        };
+      });
+    </script>
+  </head>
+  <body>
+    <p>Computer Science</p>
+    <h1>Tasks</h1>
+    <form id="new-task">
+      <input
+        id="task"
+        autocomplete="off"
+        autofocus
+        placeholder="New Task"
+        type="text"
+      />
+      <input type="submit" /><br />
+      <br />
+      <input id="complete-all" type="button" value="Complete All" />
+    </form>
+    <ol id="tasks"></ol>
+  </body>
+</html>
